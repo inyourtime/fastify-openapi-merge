@@ -1,16 +1,17 @@
 'use strict'
 
 const path = require('node:path')
+
 const fp = require('fastify-plugin')
 const { glob } = require('glob')
 
 const { checkSpecDir } = require('./lib/spec-dir')
+// const { mergeSpec } = require('./lib/merge-spec')
 
 async function fastifyOpenapiMerge (fastify, opts) {
   // const openapiPath = opts.openapiPath || 'openapi'
   const specDir = opts.specDir
 
-  // const specFiles = getAllSpecFiles(specDir)
   checkSpecDir(fastify, specDir)
 
   const rootsSpec = Array.isArray(specDir) ? specDir : [specDir]
@@ -21,31 +22,14 @@ async function fastifyOpenapiMerge (fastify, opts) {
       cwd: specPath, absolute: false, follow: true, nodir: true,
     })
 
-    specFiles.push(...files.map((file) => path.join(specPath, file)))
+    specFiles.push(...files.map((file) => {
+      return path.join(specPath, file).split(path.win32.sep).join(path.posix.sep)
+    }))
   }
 
-  console.log(specFiles)
+  // const mergedSpec = mergeSpec(specFiles)
+  // console.log(mergedSpec)
 }
-
-// function getAllSpecFiles (specDir) {
-//   let results = []
-//   const list = fs.readdirSync(specDir)
-
-//   for (const file of list) {
-//     const filePath = path.join(specDir, file)
-//     const stat = fs.statSync(filePath)
-
-//     if (stat && stat.isDirectory()) {
-//       // Recurse into subdirectory
-//       results = results.concat(getAllSpecFiles(filePath))
-//     } else if (file.endsWith('.yaml') || file.endsWith('.yml') || file.endsWith('.json')) {
-//       // Add file
-//       results.push(filePath)
-//     }
-//   }
-
-//   return results
-// }
 
 module.exports = fp(fastifyOpenapiMerge, {
   fastify: '5.x',

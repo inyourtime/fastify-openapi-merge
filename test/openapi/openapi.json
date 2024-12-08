@@ -1,17 +1,19 @@
 {
-  "openapi": "3.0.3",
+  "openapi": "3.0.1",
   "info": {
     "title": "OpenAPI Spec",
     "version": "1.0.0"
   },
-  "servers": [
-    {
-      "url": "http://localhost:3000",
-      "description": "Local server"
-    },
-    {
-      "url": "https://example.com",
-      "description": "Production server"
+  "paths": {
+    "/foo": {
+      "get": {
+        "summary": "Foo",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
-  ]
+  }
 }
