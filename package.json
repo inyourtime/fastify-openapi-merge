@@ -30,14 +30,13 @@
     "url": "https://github.com/inyourtime/fastify-openapi-serve/issues"
   },
   "dependencies": {
+    "@scalar/types": "^0.0.23",
     "fastify-plugin": "^5.0.1",
     "glob": "^11.0.0",
     "openapi-merge": "^1.3.3",
-    "openapi-types": "^12.1.3",
     "yaml": "^2.6.1"
   },
   "devDependencies": {
-    "@scalar/fastify-api-reference": "^1.25.76",
     "@types/node": "^22.10.1",
     "c8": "^10.1.2",
     "eslint": "^9.16.0",

@@ -7,12 +7,13 @@ const { glob } = require('glob')
 
 const { checkSpecDir } = require('./lib/spec-dir')
 const { mergeSpec } = require('./lib/merge-spec')
+const { scalarUi } = require('./lib/scalar')
 
 /**
- * @type {import('fastify').FastifyPluginAsync}
+ * @type {import('fastify').FastifyPluginAsync<import('./types').FastifyOpenapiServeOptions>}
  */
 async function fastifyOpenapiServe (fastify, opts) {
-  const prefix = opts.routePrefix || '/docs'
+  const prefix = getPrefix(opts.routePrefix)
   const specDir = opts.specDir
 
   checkSpecDir(fastify, specDir)
@@ -32,6 +33,14 @@ async function fastifyOpenapiServe (fastify, opts) {
     specFiles.push(...files.map((file) => {
       return file.split(path.win32.sep).join(path.posix.sep)
     }))
+  }
+
+  if (opts.ui !== false) {
+    fastify.register(scalarUi, {
+      prefix,
+      cdn: opts.scalarCdn,
+      scalarConfig: opts.scalarConfig,
+    })
   }
 
   fastify.route({
@@ -62,6 +71,12 @@ async function fastifyOpenapiServe (fastify, opts) {
         .send(mergedSpec)
     },
   })
+}
+
+function getPrefix (prefix) {
+  prefix = prefix || '/docs'
+
+  return prefix.endsWith('/') ? prefix.slice(0, -1) : prefix
 }
 
 module.exports = fp(fastifyOpenapiServe, {

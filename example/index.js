@@ -1,7 +1,6 @@
 const path = require('node:path')
 
 const Fastify = require('fastify')
-const fastifyApiReference = require('@scalar/fastify-api-reference')
 
 const fastifyOpenapiServe = require('..')
 
@@ -19,16 +18,7 @@ fastify.register(fastifyOpenapiServe, {
   }
 })
 
-fastify.register(fastifyApiReference, {
-  routePrefix: '/',
-  configuration: {
-    spec: {
-      url: '/docs/openapi.json'
-    }
-  }
-})
-
 fastify.listen({ port: 3000 }, (err) => {
   if (err) throw err
-  console.log('Documentation available on http://localhost:3000/')
+  console.log('Documentation available on http://localhost:3000/docs')
 })

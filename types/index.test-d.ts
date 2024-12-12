@@ -33,5 +33,18 @@ app.register(fastifyOpenapiServe, {
     info: { title: 'Custom OpenAPI Spec', version: '1.0.0' },
     servers: [{ url: 'http://localhost:3000', description: 'Localhost' }],
     security: [{ bearerAuth: [] }],
+    components: {},
+    tags: [],
+  }
+})
+
+app.register(fastifyOpenapiServe, {
+  specDir: '',
+  ui: true,
+  scalarCdn: '',
+  scalarConfig: {
+    layout: 'classic',
+    theme: 'moon',
+    hiddenClients: true
   }
 })

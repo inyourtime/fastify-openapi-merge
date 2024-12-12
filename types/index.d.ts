@@ -1,6 +1,7 @@
 import type { FastifyPluginAsync } from 'fastify'
+
 // eslint-disable-next-line camelcase
-import { OpenAPIV3, OpenAPIV3_1 } from 'openapi-types'
+import { OpenAPIV3, OpenAPIV3_1, Spec, ReferenceConfiguration } from '@scalar/types'
 
 type FastifyOpenapiServe = FastifyPluginAsync<fastifyOpenapiServe.FastifyOpenapiServeOptions>
 
@@ -27,7 +28,21 @@ declare namespace fastifyOpenapiServe {
     /**
      * OpenAPI spec definition
      */
-    specDefinition?: OpenAPIDocument
+    specDefinition?: Spec
+    /**
+     * Serve OpenAPI with UI
+     * @default true
+     */
+    ui?: boolean
+    /**
+     * Scalar UI configuration
+     */
+    scalarConfig?: ReferenceConfiguration
+    /**
+     * UI cdn
+     * @default 'https://cdn.jsdelivr.net/npm/@scalar/api-reference'
+     */
+    scalarCdn?: string
   }
 
   export const fastifyOpenapiServe: FastifyOpenapiServe
